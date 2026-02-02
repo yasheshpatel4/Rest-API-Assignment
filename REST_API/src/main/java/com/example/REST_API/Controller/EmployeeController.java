@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/employees")
+@RequestMapping("/v1/employees")
 public class EmployeeController {
     @Autowired
     private EmployeeService service;
@@ -42,8 +43,16 @@ public class EmployeeController {
 
     @GetMapping("/cookie")
     public ResponseEntity<String> setCookie(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from("api-token", "dummy-value")
-                .httpOnly(true).secure(true).path("/").maxAge(3600).build();
+        ResponseCookie cookie = ResponseCookie.from("token", "token")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(3600)
+                .build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body("Cookie set!");
+    }
+    @GetMapping("/all")
+    public  ResponseEntity<List<EmployeeDto>> getEmployee(){
+        return new ResponseEntity<List<EmployeeDto>>((List<EmployeeDto>) service.getEmployee(),HttpStatus.CREATED);
     }
 }

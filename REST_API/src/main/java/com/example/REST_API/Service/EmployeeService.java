@@ -19,6 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -66,6 +68,18 @@ public class EmployeeService {
 
         return mapper.map(savedEmployee, EmployeeDto.class);
     }
+
+    public List<EmployeeDto> getEmployee() {
+        // 1. repository.findAll() returns a List<Employee>
+        List<Employee> employees = repository.findAll();
+
+        List<EmployeeDto> employeeDtos = employees.stream()
+                .map(employee -> mapper.map(employee, EmployeeDto.class))
+                .collect(Collectors.toList());
+
+        return employeeDtos;
+    }
+
 }
 
 
