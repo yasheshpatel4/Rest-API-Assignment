@@ -2,11 +2,14 @@ package com.example.REST_API.Controller;
 
 import com.example.REST_API.DTO.EmployeeDto;
 import com.example.REST_API.Service.EmployeeService;
+import com.example.REST_API.validate.OnUpdate;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +22,18 @@ public class EmployeeController {
     @Autowired
     private EmployeeService service;
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable @Min(1) Long id){
+        return new ResponseEntity<>(service.deleteEmployee(id),HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable @Min(1) Long id) {
+        return new ResponseEntity<>(service.getEmployeeByID(id),HttpStatus.CREATED);
+    }
+
     @PostMapping
-    public ResponseEntity<EmployeeDto> create(@Valid @RequestBody EmployeeDto dto) {
+    public ResponseEntity<EmployeeDto> create(@Validated(OnUpdate.class) @RequestBody EmployeeDto dto) {
         return new ResponseEntity<>(service.createEmployee(dto), HttpStatus.CREATED);
     }
 

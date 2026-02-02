@@ -5,6 +5,7 @@ import com.example.REST_API.Entity.Employee;
 import com.example.REST_API.Repository.EmployeeRepo;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -63,14 +65,11 @@ public class EmployeeService {
     public EmployeeDto createEmployee(@Valid EmployeeDto dto) {
 
         Employee employee = mapper.map(dto, Employee.class);
-
         Employee savedEmployee = (Employee) repository.save(employee);
-
         return mapper.map(savedEmployee, EmployeeDto.class);
     }
 
     public List<EmployeeDto> getEmployee() {
-        // 1. repository.findAll() returns a List<Employee>
         List<Employee> employees = repository.findAll();
 
         List<EmployeeDto> employeeDtos = employees.stream()
@@ -80,6 +79,16 @@ public class EmployeeService {
         return employeeDtos;
     }
 
+    public EmployeeDto getEmployeeByID(long id) {
+        Optional<Employee> emp;
+        emp = repository.findById(id);
+        return mapper.map(emp,EmployeeDto.class);
+    }
+
+    public String deleteEmployee(@Min(1) Long id) {
+        repository.deleteById(id);
+        return "deleted";
+    }
 }
 
 
