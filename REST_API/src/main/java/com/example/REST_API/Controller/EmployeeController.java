@@ -54,16 +54,16 @@ public class EmployeeController {
                 .body(file);
     }
 
-    @GetMapping("/cookie")
-    public ResponseEntity<String> setCookie(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from("token", "token")
-                .httpOnly(true)
-                .secure(true)
-                .path("/")
-                .maxAge(3600)
-                .build();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body("Cookie set!");
-    }
+//    @GetMapping("/cookie")
+//    public ResponseEntity<String> setCookie(HttpServletResponse response) {
+//        ResponseCookie cookie = ResponseCookie.from("token", "token")
+//                .httpOnly(true)
+//                .secure(true)
+//                .path("/")
+//                .maxAge(3600)
+//                .build();
+//        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body("Cookie set!");
+//    }
     @GetMapping("/all")
     public  ResponseEntity<List<EmployeeDto>> getEmployee(){
         return new ResponseEntity<List<EmployeeDto>>((List<EmployeeDto>) service.getEmployee(),HttpStatus.CREATED);

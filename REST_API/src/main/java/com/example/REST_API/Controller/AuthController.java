@@ -2,6 +2,7 @@ package com.example.REST_API.Controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,10 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body("Cookie set! You are now authenticated.");
+                .body("You are now authenticated.");
     }
-
 //    @GetMapping("/test")
-//    public String test() {
-//        return "Access Granted: You have the dummy cookie!";
+//    public ResponseEntity<String> test(){
+//        return new ResponseEntity<>("login successful", HttpStatus.CREATED);
 //    }
 }

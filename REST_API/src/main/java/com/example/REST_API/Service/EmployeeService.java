@@ -34,7 +34,7 @@ public class EmployeeService {
     private String uploadDir;
 
     public void uploadImage(Long id, MultipartFile file) throws IOException {
-        Employee emp = (Employee) repository.findById(id).orElseThrow();
+        Employee emp =  repository.findById(id).orElseThrow();
 
         Path root = Paths.get(System.getProperty("user.dir"), uploadDir);
         if (!Files.exists(root)) Files.createDirectories(root);
